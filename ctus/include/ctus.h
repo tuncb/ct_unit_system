@@ -46,8 +46,6 @@ template <std::ratio SIRatio, double SIStart, Dimension Dim> struct Unit
   }
 };
 
-using kilogram = Unit<std::ratio<1, 1>{}, 0.0, Dimension<0, 1, 0>{}>;
-
 template <std::ratio RatioValue, Unit UnitValue>
 using CreateUnit =
     Unit<std::ratio_multiply<decltype(RatioValue), decltype(UnitValue.si_ratio())>{}, 0.0, decltype(UnitValue.dim()){}>;
@@ -80,11 +78,6 @@ template <Numeric T, Unit UnitValue> struct ValueWithUnit
 
   auto operator<=>(const ValueWithUnit<T, UnitValue> &) const = default;
 };
-
-constexpr ValueWithUnit<double, kilogram{}> operator"" _kg(long double value)
-{
-  return {static_cast<double>(value)};
-}
 
 template <Numeric T, Unit UnitValue>
 constexpr ValueWithUnit<T, UnitValue> operator+(const ValueWithUnit<T, UnitValue> &lhs,

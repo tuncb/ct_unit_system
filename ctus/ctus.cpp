@@ -2,6 +2,7 @@
 
 #include "include/ctus.h"
 #include "include/ctus_length.h"
+#include "include/ctus_mass.h"
 #include "include/ctus_time.h"
 
 auto test_length()
@@ -35,6 +36,17 @@ auto test_time()
 
   static_assert(sec + min.to<second>() == 61.0_s);
   static_assert(60 * sec + min.to<second>() == 120.0_s);
+}
+
+auto test_mass()
+{
+  using namespace ctus;
+  using namespace ctus::mass;
+
+  constexpr auto kilogram = 1.0_kg;
+  constexpr auto gr = 1.0_gr;
+
+  static_assert(kilogram.to<gram>() + gr == 1001.0_gr);
 }
 
 int main()
