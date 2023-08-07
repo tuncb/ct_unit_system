@@ -2,6 +2,7 @@
 
 #include "include/ctus.h"
 #include "include/ctus_length.h"
+#include "include/ctus_time.h"
 
 auto test_length()
 {
@@ -20,6 +21,19 @@ auto test_length()
 
   constexpr auto total_len = 5.0_cm + 1.0_m.to<centimeter>();
   static_assert(total_len == 105.0_cm);
+}
+
+auto test_time()
+{
+  using namespace ctus;
+  using namespace ctus::time;
+
+  constexpr auto millisec = 1.0_ms;
+  constexpr auto sec = 1.0_s;
+  constexpr auto min = 1.0_min;
+  constexpr auto hour = 1.0_h;
+
+  static_assert(sec + min.to<second>() == 61.0_s);
 }
 
 int main()

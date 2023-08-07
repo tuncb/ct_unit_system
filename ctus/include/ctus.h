@@ -42,7 +42,6 @@ template <std::ratio SIRatio, double SIStart, Dimension Dim> struct Unit
   }
 };
 
-using second = Unit<std::ratio<1, 1>{}, 0.0, Dimension<0, 0, 1>{}>;
 using kilogram = Unit<std::ratio<1, 1>{}, 0.0, Dimension<0, 1, 0>{}>;
 
 template <std::ratio RatioValue, Unit UnitValue>
@@ -77,11 +76,6 @@ template <typename T, Unit UnitValue> struct ValueWithUnit
 
   auto operator<=>(const ValueWithUnit<T, UnitValue> &) const = default;
 };
-
-constexpr ValueWithUnit<double, second{}> operator"" _s(long double value)
-{
-  return {static_cast<double>(value)};
-}
 
 constexpr ValueWithUnit<double, kilogram{}> operator"" _kg(long double value)
 {

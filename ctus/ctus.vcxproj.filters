@@ -26,6 +26,9 @@
     <ClInclude Include="include\ctus_length.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\ctus_time.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
