@@ -103,4 +103,15 @@ constexpr ValueWithUnit<T, UnitValue> operator-(const ValueWithUnit<T, UnitValue
   return {lhs.value - rhs.value};
 }
 
+
+#define CTUS_CREATE_NEW_UNIT(new_unit, short_name, base_unit, ratio) \
+using new_unit##_t = CreateUnit<ratio{}, base_unit>; \
+constexpr const auto new_unit = new_unit##_t{};                                                                      \
+  constexpr ValueWithUnit<double, new_unit> operator"" _##short_name##(long double value)                                \
+  { \
+  return {static_cast<double>(value)}; \
+} \
+
+
+
 } // namespace ctus
