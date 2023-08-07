@@ -23,5 +23,11 @@
     <ClInclude Include="include\ctus.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\ctus_length.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>
