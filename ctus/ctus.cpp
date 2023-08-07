@@ -16,14 +16,13 @@ auto test_length()
   static_assert(len.value == 10.0);
 
   constexpr auto len_km = len.to<kilometer>();
-  static_assert(len_km.value == len.value * 1000.0);
+  static_assert(len_km.value == len.value * 0.001);
+
+  constexpr auto total_len = 5.0_cm + 1.0_m.to<centimeter>();
+  static_assert(total_len == 105.0_cm);
 }
-
-
-
-
 
 int main()
 {
-
+  test_length();
 }

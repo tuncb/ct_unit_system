@@ -5,7 +5,7 @@
 namespace ctus
 {
 
-  using Length = int;
+using Length = int;
 using Mass = int;
 using Time = int;
 
@@ -50,6 +50,16 @@ template <std::ratio RatioValue, Unit UnitValue>
 using CreateUnit =
     Unit<std::ratio_multiply<decltype(RatioValue), decltype(UnitValue.si_ratio())>{}, 0.0, decltype(UnitValue.dim()){}>;
 
+template <typename T, std::ratio RatioValue> constexpr auto evaluate() -> T
+{
+  return static_cast<T>(RatioValue.num) / static_cast<T>(RatioValue.den);
+}
+
+template <typename T, std::ratio RatioValue> constexpr auto evaluate_inverse() -> T
+{
+  return static_cast<T>(RatioValue.den) / static_cast<T>(RatioValue.num);
+}
+
 template <typename T, Unit UnitValue> struct ValueWithUnit
 {
   T value;
@@ -61,14 +71,13 @@ template <typename T, Unit UnitValue> struct ValueWithUnit
   template <Unit OtherUnit> constexpr auto to() const
   {
     static_assert(std::is_same_v<decltype(OtherUnit.dim()), decltype(UnitValue.dim())>);
-    auto si_value = (value - unit().si_start()) / (unit().si_ratio().num / unit().si_ratio().den);
-    auto new_value =
-        (si_value + OtherUnit.si_start()) * ((OtherUnit.si_ratio().num / OtherUnit.si_ratio().den));
+    auto si_value = (value - unit().si_start()) * evaluate<T, unit().si_ratio()>();
+    auto new_value = (si_value + OtherUnit.si_start()) * evaluate_inverse<T, OtherUnit.si_ratio()>();
     return ValueWithUnit<T, OtherUnit>{new_value};
   };
+
+  auto operator<=>(const ValueWithUnit<T, UnitValue> &) const = default;
 };
-
-
 
 constexpr ValueWithUnit<double, second{}> operator"" _s(long double value)
 {
