@@ -1,6 +1,6 @@
 #pragma once
-#include <ratio>
 #include "ctus.h"
+#include <ratio>
 
 namespace ctus::length
 {

@@ -34,6 +34,7 @@ auto test_time()
   constexpr auto hour = 1.0_h;
 
   static_assert(sec + min.to<second>() == 61.0_s);
+  static_assert(60 * sec + min.to<second>() == 120.0_s);
 }
 
 int main()

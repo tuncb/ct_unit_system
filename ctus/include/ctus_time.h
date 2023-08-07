@@ -1,8 +1,9 @@
 #pragma once
-#include <ratio>
 #include "ctus.h"
+#include <ratio>
 
-namespace ctus::time {
+namespace ctus::time
+{
 
 using second_t = Unit<std::ratio<1, 1>{}, 0.0, Dimension<0, 0, 1>{}>;
 constexpr const auto second = second_t{};
@@ -17,4 +18,4 @@ CTUS_CREATE_NEW_UNIT(millisecond, ms, second, std::milli);
 CTUS_CREATE_NEW_UNIT(minute, min, second, TimeRatio60);
 CTUS_CREATE_NEW_UNIT(hour, h, minute, TimeRatio60);
 
-}
+} // namespace ctus::time
