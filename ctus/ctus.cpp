@@ -38,5 +38,7 @@ auto test_time()
 
 int main()
 {
+  // for debugging purposes only
   test_length();
+  test_time();
 }
