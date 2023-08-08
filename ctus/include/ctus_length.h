@@ -4,7 +4,7 @@
 
 namespace ctus::length
 {
-using meter_t = Unit<std::ratio<1, 1>{}, Dimension<1, 0, 0>{}>;
+using meter_t = Unit<std::ratio<1, 1>{}, Dimension<1, 0, 0, 0>{}>;
 constexpr const auto meter = meter_t{};
 constexpr ValueWithUnit<double, meter> operator"" _m(long double value)
 {

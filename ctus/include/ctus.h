@@ -11,8 +11,9 @@ concept Numeric = std::is_arithmetic_v<T>;
 using Length = int;
 using Mass = int;
 using Time = int;
+using Temperature = int;
 
-template <Length L, Mass M, Time T> struct Dimension
+template <Length L, Mass M, Time T, Temperature Temp> struct Dimension
 {
   static constexpr Length length()
   {
@@ -27,6 +28,11 @@ template <Length L, Mass M, Time T> struct Dimension
   static constexpr Time time()
   {
     return T;
+  }
+
+  static constexpr Temperature temperature()
+  {
+    return Temp;
   }
 };
 
@@ -106,8 +112,9 @@ constexpr auto operator*(const ValueWithUnit<T, UnitValue1> &lhs, const ValueWit
   constexpr auto length = dim1.length() + dim2.length();
   constexpr auto mass = dim1.mass() + dim2.mass();
   constexpr auto time = dim1.time() + dim2.time();
+  constexpr auto temp = dim1.temperature() + dim2.temperature();
 
-  using DimType = Dimension<length, mass, time>;
+  using DimType = Dimension<length, mass, time, temp>;
   using RatioType = std::ratio_multiply<decltype(UnitValue1.si_ratio()), decltype(UnitValue2.si_ratio())>;
   using UnitType = Unit<RatioType{}, DimType{}>;
 
@@ -123,8 +130,9 @@ constexpr auto operator/(const ValueWithUnit<T, UnitValue1> &lhs, const ValueWit
   constexpr auto length = dim1.length() - dim2.length();
   constexpr auto mass = dim1.mass() - dim2.mass();
   constexpr auto time = dim1.time() - dim2.time();
+  constexpr auto temp = dim1.temperature() - dim2.temperature();
 
-  using DimType = Dimension<length, mass, time>;
+  using DimType = Dimension<length, mass, time, temp>;
   using RatioType = std::ratio_divide<decltype(UnitValue1.si_ratio()), decltype(UnitValue2.si_ratio())>;
   using UnitType = Unit<RatioType{}, DimType{}>;
 

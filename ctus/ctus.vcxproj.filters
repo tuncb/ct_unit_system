@@ -32,6 +32,9 @@
     <ClInclude Include="include\ctus_mass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\ctus_temp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
