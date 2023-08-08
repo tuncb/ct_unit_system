@@ -14,7 +14,6 @@ auto test_length()
 
   static_assert(len.unit().si_ratio().num == 1);
   static_assert(len.unit().si_ratio().den == 1);
-  static_assert(len.unit().si_start() == 0.0);
   static_assert(len.value == 10.0);
 
   constexpr auto len_km = len.to<kilometer>();
@@ -61,7 +60,6 @@ auto test_combined_units_mul()
   constexpr auto kilomin = kilogram * min;
   static_assert(kilomin.unit().si_ratio().num == 60);
   static_assert(kilomin.unit().si_ratio().den == 1);
-  static_assert(kilomin.unit().si_start() == 0.0);
   static_assert(kilomin.unit().dim().length() == 0);
   static_assert(kilomin.unit().dim().mass() == 1);
   static_assert(kilomin.unit().dim().time() == 1);
@@ -79,7 +77,6 @@ auto test_combined_units_div()
   constexpr auto vel = kilometer / hr;
   static_assert(vel.unit().si_ratio().num == 5);
   static_assert(vel.unit().si_ratio().den == 18);
-  static_assert(vel.unit().si_start() == 0.0);
   static_assert(vel.unit().dim().length() == 1);
   static_assert(vel.unit().dim().mass() == 0);
   static_assert(vel.unit().dim().time() == -1);

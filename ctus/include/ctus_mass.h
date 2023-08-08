@@ -5,7 +5,7 @@
 namespace ctus::mass
 {
 
-using kilogram_t = Unit<std::ratio<1, 1>{}, 0.0, Dimension<0, 1, 0>{}>;
+using kilogram_t = Unit<std::ratio<1, 1>{}, Dimension<0, 1, 0>{}>;
 constexpr const auto kilogram = kilogram_t{};
 constexpr ValueWithUnit<double, kilogram> operator"" _kg(long double value)
 {

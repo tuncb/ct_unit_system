@@ -5,7 +5,7 @@
 namespace ctus::time
 {
 
-using second_t = Unit<std::ratio<1, 1>{}, 0.0, Dimension<0, 0, 1>{}>;
+using second_t = Unit<std::ratio<1, 1>{}, Dimension<0, 0, 1>{}>;
 constexpr const auto second = second_t{};
 constexpr ValueWithUnit<double, second> operator"" _s(long double value)
 {

@@ -30,16 +30,13 @@ template <Length L, Mass M, Time T> struct Dimension
   }
 };
 
-template <std::ratio SIRatio, double SIStart, Dimension Dim> struct Unit
+template <std::ratio SIRatio, Dimension Dim> struct Unit
 {
   static constexpr auto si_ratio()
   {
     return SIRatio;
   }
-  static constexpr double si_start()
-  {
-    return SIStart;
-  }
+
   static constexpr auto dim()
   {
     return Dim;
@@ -48,7 +45,7 @@ template <std::ratio SIRatio, double SIStart, Dimension Dim> struct Unit
 
 template <std::ratio RatioValue, Unit UnitValue>
 using CreateUnit =
-    Unit<std::ratio_multiply<decltype(RatioValue), decltype(UnitValue.si_ratio())>{}, 0.0, decltype(UnitValue.dim()){}>;
+    Unit<std::ratio_multiply<decltype(RatioValue), decltype(UnitValue.si_ratio())>{}, decltype(UnitValue.dim()){}>;
 
 template <Numeric T, std::ratio RatioValue> constexpr auto evaluate() -> T
 {
@@ -71,8 +68,8 @@ template <Numeric T, Unit UnitValue> struct ValueWithUnit
   template <Unit OtherUnit> constexpr auto to() const
   {
     static_assert(std::is_same_v<decltype(OtherUnit.dim()), decltype(UnitValue.dim())>);
-    auto si_value = (value - unit().si_start()) * evaluate<T, unit().si_ratio()>();
-    auto new_value = (si_value + OtherUnit.si_start()) * evaluate_inverse<T, OtherUnit.si_ratio()>();
+    auto si_value = value * evaluate<T, unit().si_ratio()>();
+    auto new_value = si_value * evaluate_inverse<T, OtherUnit.si_ratio()>();
     return ValueWithUnit<T, OtherUnit>{new_value};
   };
 
@@ -103,9 +100,6 @@ constexpr ValueWithUnit<T, UnitValue> operator*(TValue value, const ValueWithUni
 template <Numeric T, Unit UnitValue1, Unit UnitValue2>
 constexpr auto operator*(const ValueWithUnit<T, UnitValue1> &lhs, const ValueWithUnit<T, UnitValue2> &rhs)
 {
-  static_assert(UnitValue1.si_start() == 0.0);
-  static_assert(UnitValue2.si_start() == 0.0);
-
   constexpr auto dim1 = UnitValue1.dim();
   constexpr auto dim2 = UnitValue2.dim();
 
@@ -115,7 +109,7 @@ constexpr auto operator*(const ValueWithUnit<T, UnitValue1> &lhs, const ValueWit
 
   using DimType = Dimension<length, mass, time>;
   using RatioType = std::ratio_multiply<decltype(UnitValue1.si_ratio()), decltype(UnitValue2.si_ratio())>;
-  using UnitType = Unit<RatioType{}, 0.0, DimType{}>;
+  using UnitType = Unit<RatioType{}, DimType{}>;
 
   return ValueWithUnit<T, UnitType{}>{lhs.value * rhs.value};
 }
@@ -123,9 +117,6 @@ constexpr auto operator*(const ValueWithUnit<T, UnitValue1> &lhs, const ValueWit
 template <Numeric T, Unit UnitValue1, Unit UnitValue2>
 constexpr auto operator/(const ValueWithUnit<T, UnitValue1> &lhs, const ValueWithUnit<T, UnitValue2> &rhs)
 {
-  static_assert(UnitValue1.si_start() == 0.0);
-  static_assert(UnitValue2.si_start() == 0.0);
-
   constexpr auto dim1 = UnitValue1.dim();
   constexpr auto dim2 = UnitValue2.dim();
 
@@ -135,7 +126,7 @@ constexpr auto operator/(const ValueWithUnit<T, UnitValue1> &lhs, const ValueWit
 
   using DimType = Dimension<length, mass, time>;
   using RatioType = std::ratio_divide<decltype(UnitValue1.si_ratio()), decltype(UnitValue2.si_ratio())>;
-  using UnitType = Unit<RatioType{}, 0.0, DimType{}>;
+  using UnitType = Unit<RatioType{}, DimType{}>;
 
   return ValueWithUnit<T, UnitType{}>{lhs.value / rhs.value};
 }
