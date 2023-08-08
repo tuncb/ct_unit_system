@@ -49,7 +49,7 @@ auto test_mass()
   static_assert(kilogram.to<gram>() + gr == 1001.0_gr);
 }
 
-auto test_combined_units()
+auto test_combined_units_mul()
 {
   using namespace ctus;
   using namespace ctus::mass;
@@ -65,6 +65,24 @@ auto test_combined_units()
   static_assert(kilomin.unit().dim().length() == 0);
   static_assert(kilomin.unit().dim().mass() == 1);
   static_assert(kilomin.unit().dim().time() == 1);
+}
+
+auto test_combined_units_div()
+{
+  using namespace ctus;
+  using namespace ctus::length;
+  using namespace ctus::time;
+
+  constexpr auto kilometer = 100.0_km;
+  constexpr auto hr = 1.0_h;
+
+  constexpr auto vel = kilometer / hr;
+  static_assert(vel.unit().si_ratio().num == 5);
+  static_assert(vel.unit().si_ratio().den == 18);
+  static_assert(vel.unit().si_start() == 0.0);
+  static_assert(vel.unit().dim().length() == 1);
+  static_assert(vel.unit().dim().mass() == 0);
+  static_assert(vel.unit().dim().time() == -1);
 }
 
 int main()
