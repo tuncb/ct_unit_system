@@ -100,6 +100,26 @@ constexpr ValueWithUnit<T, UnitValue> operator*(TValue value, const ValueWithUni
   return {value * rhs.value};
 }
 
+template <Numeric T, Unit UnitValue1, Unit UnitValue2>
+constexpr auto operator*(const ValueWithUnit<T, UnitValue1> &lhs, const ValueWithUnit<T, UnitValue2> &rhs)
+{
+  static_assert(UnitValue1.si_start() == 0.0);
+  static_assert(UnitValue2.si_start() == 0.0);
+
+  constexpr auto dim1 = UnitValue1.dim();
+  constexpr auto dim2 = UnitValue2.dim();
+
+  constexpr auto length = dim1.length() + dim2.length();
+  constexpr auto mass = dim1.mass() + dim2.mass();
+  constexpr auto time = dim1.time() + dim2.time();
+
+  using DimType = Dimension<length, mass, time>;
+  using RatioType = std::ratio_multiply<decltype(UnitValue1.si_ratio()), decltype(UnitValue2.si_ratio())>;
+  using UnitType = Unit<RatioType{}, 0.0, DimType{}>;
+
+  return ValueWithUnit<T, UnitType{}>{lhs.value * rhs.value};
+}
+
 #define CTUS_CREATE_NEW_UNIT(new_unit, short_name, base_unit, ratio)                                                   \
   using new_unit##_t = CreateUnit<ratio{}, base_unit>;                                                                 \
   constexpr const auto new_unit = new_unit##_t{};                                                                      \

@@ -49,6 +49,24 @@ auto test_mass()
   static_assert(kilogram.to<gram>() + gr == 1001.0_gr);
 }
 
+auto test_combined_units()
+{
+  using namespace ctus;
+  using namespace ctus::mass;
+  using namespace ctus::time;
+
+  constexpr auto kilogram = 1.0_kg;
+  constexpr auto min = 1.0_min;
+
+  constexpr auto kilomin = kilogram * min;
+  static_assert(kilomin.unit().si_ratio().num == 60);
+  static_assert(kilomin.unit().si_ratio().den == 1);
+  static_assert(kilomin.unit().si_start() == 0.0);
+  static_assert(kilomin.unit().dim().length() == 0);
+  static_assert(kilomin.unit().dim().mass() == 1);
+  static_assert(kilomin.unit().dim().time() == 1);
+}
+
 int main()
 {
   // for debugging purposes only
