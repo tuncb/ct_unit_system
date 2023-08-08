@@ -90,4 +90,6 @@ int main()
   // for debugging purposes only
   test_length();
   test_time();
+  test_combined_units_mul();
+  test_combined_units_div();
 }
